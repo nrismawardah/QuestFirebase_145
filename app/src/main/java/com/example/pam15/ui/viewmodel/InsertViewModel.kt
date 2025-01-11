@@ -1,5 +1,16 @@
 package com.example.pam15.ui.viewmodel
 
+import com.example.pam15.model.Mahasiswa
+
+fun MahasiswaEvent.toMhsModel(): Mahasiswa = Mahasiswa(
+    nim = nim,
+    nama = nama,
+    gender = gender,
+    alamat = alamat,
+    kelas = kelas,
+    angkatan = angkatan
+)
+
 sealed class FormState {
     object Idle : FormState()
     object Loading : FormState()
@@ -15,13 +26,13 @@ data class InsertUiState(
 data class FormErrorState(
     val nim: String? = null,
     val nama: String? = null,
-    val jenisKelamin: String? = null,
+    val gender: String? = null,
     val alamat: String? = null,
     val kelas: String? = null,
     val angkatan: String? = null
 ) {
     fun isValid(): Boolean {
-        return nim == null && nama == null && jenisKelamin == null &&
+        return nim == null && nama == null && gender == null &&
                 alamat == null && kelas == null && angkatan == null
     }
 }
@@ -29,7 +40,7 @@ data class FormErrorState(
 data class MahasiswaEvent(
     val nim: String = "",
     val nama: String = "",
-    val jenisKelamin: String = "",
+    val gender: String = "",
     val alamat: String = "",
     val kelas: String = "",
     val angkatan: String = ""
