@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.pam15.ui.navigasi.PengelolaHalaman
 import com.example.pam15.ui.pages.HomeView
 import com.example.pam15.ui.theme.PAM15Theme
 
@@ -21,8 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             PAM15Theme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    HomeView(
-                        navigateToItemEntry = { },
+                    PengelolaHalaman(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
