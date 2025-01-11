@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "178294701048",
+    "project_id": "pamoke-4fe6c",
+    "storage_bucket": "pamoke-4fe6c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178294701048:android:eed2101a2769303113740d",
+        "android_client_info": {
+          "package_name": "com.example.pam15"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSuTQsc3UjaDiurJ_fst3NythGOae28dk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
