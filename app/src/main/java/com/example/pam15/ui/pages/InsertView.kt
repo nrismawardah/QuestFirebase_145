@@ -7,18 +7,19 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -29,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.pam15.ui.customwidget.TopAppBar
 import com.example.pam15.ui.viewmodel.FormErrorState
 import com.example.pam15.ui.viewmodel.FormState
 import com.example.pam15.ui.viewmodel.InsertUiState
@@ -38,6 +40,7 @@ import com.example.pam15.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InsertMhsView(
     onBack: () -> Unit,
@@ -79,8 +82,14 @@ fun InsertMhsView(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(16.dp)
+                .padding(16.dp).offset(y = (-40).dp)
         ) {
+            TopAppBar(
+                onBack = onBack,
+                showBackButton = true,
+                judul = "Tambah Mahasiswa",
+                modifier = Modifier
+            )
             InsertBodyMhs(
                 uiState = uiEvent,
                 homeUiState = uiState,
