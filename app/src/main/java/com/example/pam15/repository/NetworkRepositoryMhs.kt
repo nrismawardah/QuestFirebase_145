@@ -40,19 +40,25 @@ class NetworkRepositoryMhs(
         }
     }
 
-    override fun getMhs(nim: String): Flow<Mahasiswa> = callbackFlow {
-        val mhsDocument = firestore.collection("Mahasiswa")
-            .document(nim)
+    override suspend fun getMhs(nim: String): Flow<Mahasiswa> = callbackFlow {
+        val mhsCollection = firestore.collection("Mahasiswa")
+            .whereEqualTo("nim", nim)
             .addSnapshotListener { value, error ->
-                if (value != null) {
-                    val mhs = value.toObject(Mahasiswa::class.java)!!
-                    trySend(mhs)
+                if (error != null) {
+                    close(error)
+                } else {
+                    value?.documents?.let { documents ->
+                        val mahasiswa = documents.firstOrNull()?.toObject(Mahasiswa::class.java)
+                        mahasiswa?.let {
+                            trySend(it)
+                        } ?: close(Exception("Mahasiswa tidak ditemukan"))
+                    }
                 }
             }
-        awaitClose {
-            mhsDocument.remove()
-        }
+
+        awaitClose { mhsCollection.remove() }
     }
+
 
     override suspend fun deleteMhs(mahasiswa: Mahasiswa) {
         try {
