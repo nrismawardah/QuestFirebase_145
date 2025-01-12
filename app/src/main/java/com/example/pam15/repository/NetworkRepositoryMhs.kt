@@ -59,15 +59,24 @@ class NetworkRepositoryMhs(
         awaitClose { mhsCollection.remove() }
     }
 
-
     override suspend fun deleteMhs(mahasiswa: Mahasiswa) {
         try {
-            firestore.collection("Mahasiswa")
-            .document(mahasiswa.nim)
-            .delete()
-            .await()
+            val querySnapshot = firestore.collection("Mahasiswa")
+                .whereEqualTo("nim", mahasiswa.nim)
+                .get()
+                .await()
+
+            if (!querySnapshot.isEmpty) {
+                val documentId = querySnapshot.documents[0].id
+                firestore.collection("Mahasiswa")
+                    .document(documentId)
+                    .delete()
+                    .await()
+            } else {
+                throw Exception("Mahasiswa dengan NIM ${mahasiswa.nim} tidak ditemukan.")
+            }
         } catch (e: Exception) {
-            throw Exception("Gagal menghapus data mahasiswa:${e.message}")
+            throw Exception("Error deleting Mahasiswa: ${e.message}")
         }
     }
 
