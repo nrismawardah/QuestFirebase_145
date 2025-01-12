@@ -10,16 +10,46 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pam15.model.Mahasiswa
 import com.example.pam15.ui.viewmodel.DetailUiState
+import com.example.pam15.ui.viewmodel.DetailViewModel
+import com.example.pam15.ui.viewmodel.PenyediaViewModel
+
+@Composable
+fun DetailView(
+    nim: String,
+    modifier: Modifier = Modifier,
+    viewModel: DetailViewModel = viewModel(factory = PenyediaViewModel.Factory),
+    onBack: () -> Unit = { },
+) {
+    viewModel.getMhsbyNim()
+
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .padding(top = 18.dp),
+    ) { innerPadding ->
+        val detailUiState by viewModel.detailUiState.collectAsState()
+
+        BodyDetail(
+            modifier = Modifier.padding(innerPadding),
+            detailUiState = detailUiState,
+        )
+    }
+}
 
 @Composable
 fun BodyDetail(
