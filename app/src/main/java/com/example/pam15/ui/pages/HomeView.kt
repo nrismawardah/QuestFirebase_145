@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pam15.R
 import com.example.pam15.model.Mahasiswa
+import com.example.pam15.ui.customwidget.TopAppBar
 import com.example.pam15.ui.viewmodel.HomeUiState
 import com.example.pam15.ui.viewmodel.HomeViewModel
 import com.example.pam15.ui.viewmodel.PenyediaViewModel
@@ -58,16 +59,29 @@ fun HomeView(
     onDetailClick: (String) -> Unit = {},
     viewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .padding(top = 18.dp),
+        topBar = {
+            TopAppBar(
+                judul = "Daftar Mahasiswa",
+                showBackButton = false,
+                onBack = { },
+                modifier = modifier
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = navigateToItemEntry,
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.padding(18.dp)
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add Mahasiswa")
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Add Mahasiswa"
+                )
             }
         },
     ) { innerPadding ->
@@ -171,7 +185,7 @@ fun ListMahasiswa (
     onDelete: (Mahasiswa) -> Unit = { }
 ) {
     LazyColumn(
-        modifier = modifier
+        modifier = modifier.padding(top = 70.dp)
 
     ) {
         items(
