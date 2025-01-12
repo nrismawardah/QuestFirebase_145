@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pam15.model.Mahasiswa
+import com.example.pam15.ui.customwidget.TopAppBar
 import com.example.pam15.ui.viewmodel.DetailUiState
 import com.example.pam15.ui.viewmodel.DetailViewModel
 import com.example.pam15.ui.viewmodel.PenyediaViewModel
@@ -41,6 +42,14 @@ fun DetailView(
             .fillMaxSize()
             .padding(16.dp)
             .padding(top = 18.dp),
+        topBar = {
+            TopAppBar (
+                judul = "Detail Mahasiswa",
+                showBackButton = true,
+                onBack = onBack,
+                modifier = modifier
+            )
+        },
     ) { innerPadding ->
         val detailUiState by viewModel.detailUiState.collectAsState()
 
