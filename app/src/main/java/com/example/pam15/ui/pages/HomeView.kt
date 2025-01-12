@@ -74,7 +74,7 @@ fun HomeView(
         HomeStatus(
             homeUiState = viewModel.mhsUiState,
             retryAction = { viewModel.getMhs() },
-            modifier = Modifier.padding(innerPadding).offset(y = (-70).dp),
+            modifier = Modifier.padding(innerPadding),
             onDetailClick = onDetailClick,
             onDeleteClick = {
                 viewModel.deleteMhs(it)
@@ -107,7 +107,7 @@ fun HomeStatus(
                     onClick = {
                         onDetailClick(it)},
                     onDelete = {
-                        onDeleteClick(it)
+                        deleteConfirmationRequired = it
                     }
                 )
                 deleteConfirmationRequired?.let { data ->
