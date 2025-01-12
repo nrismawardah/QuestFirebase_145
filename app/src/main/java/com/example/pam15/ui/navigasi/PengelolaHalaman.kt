@@ -3,9 +3,12 @@ package com.example.pam15.ui.navigasi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.pam15.ui.pages.DetailView
 import com.example.pam15.ui.pages.HomeView
 import com.example.pam15.ui.pages.InsertMhsView
 
@@ -26,6 +29,10 @@ fun PengelolaHalaman(
                 navigateToItemEntry = {
                     navController.navigate(DestinasiInsert.route)
                 },
+                onDetailClick = { nim ->
+                    navController.navigate("${DestinasiDetail.route}/$nim")
+                    println("PengelolaHalaman: nim = $nim")
+                }
             )
         }
         composable(
@@ -40,5 +47,26 @@ fun PengelolaHalaman(
                 }
             )
         }
+        composable(
+            DestinasiDetail.routesWithArg,
+            arguments = listOf(
+                navArgument(DestinasiDetail.NIM) {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+            val nim =
+                backStackEntry.arguments?.getString(DestinasiDetail.NIM)
+
+            nim?.let {
+                DetailView(
+                    nim = it,
+                    onBack = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+        }
+
     }
 }
