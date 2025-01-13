@@ -47,11 +47,13 @@ class NetworkRepositoryMhs(
                 if (error != null) {
                     close(error)
                 } else {
-                    value?.documents?.let { documents ->
-                        val mahasiswa = documents.firstOrNull()?.toObject(Mahasiswa::class.java)
+                    if (value != null && value.documents.isNotEmpty()) {
+                        val mahasiswa = value.documents.firstOrNull()?.toObject(Mahasiswa::class.java)
                         mahasiswa?.let {
                             trySend(it)
                         } ?: close(Exception("Mahasiswa tidak ditemukan"))
+                    } else {
+                        close(Exception("Mahasiswa tidak ditemukan"))
                     }
                 }
             }
@@ -82,12 +84,22 @@ class NetworkRepositoryMhs(
 
     override suspend fun updateMhs(mahasiswa: Mahasiswa) {
         try {
-            firestore.collection("Mahasiswa")
-            .document(mahasiswa.nim)
-            .set(mahasiswa)
-            .await()
+            val querySnapshot = firestore.collection("Mahasiswa")
+                .whereEqualTo("nim", mahasiswa.nim)
+                .get()
+                .await()
+
+            if (!querySnapshot.isEmpty) {
+                val documentId = querySnapshot.documents[0].id
+                firestore.collection("Mahasiswa")
+                    .document(documentId)
+                    .set(mahasiswa)
+                    .await()
+            } else {
+                throw Exception("Mahasiswa dengan NIM ${mahasiswa.nim} tidak ditemukan.")
+            }
         } catch (e: Exception) {
-            throw Exception("Gagal mengupdate data mahasiswa:${e.message}")
+            throw Exception("Gagal mengupdate data mahasiswa: ${e.message}")
         }
     }
 }
