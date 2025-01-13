@@ -6,9 +6,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -34,6 +38,7 @@ fun DetailView(
     modifier: Modifier = Modifier,
     viewModel: DetailViewModel = viewModel(factory = PenyediaViewModel.Factory),
     onBack: () -> Unit = { },
+    onUpdate: (String) -> Unit = { }
 ) {
     viewModel.getMhsbyNim()
 
@@ -50,6 +55,23 @@ fun DetailView(
                 modifier = modifier
             )
         },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    val detailState = viewModel.detailUiState.value
+                    if (detailState is DetailUiState.Success) {
+                        onUpdate(detailState.mahasiswa.nim)
+                    }
+                },
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Edit Mahasiswa",
+                )
+            }
+        }
     ) { innerPadding ->
         val detailUiState by viewModel.detailUiState.collectAsState()
 
