@@ -12,6 +12,7 @@ object PenyediaViewModel {
         initializer { HomeViewModel(mahasiswaApp().containerApp.repositoryMhs) }
         initializer { InsertViewModel(mahasiswaApp().containerApp.repositoryMhs) }
         initializer { DetailViewModel(createSavedStateHandle(),mahasiswaApp().containerApp.repositoryMhs) }
+        initializer { UpdateViewModel(mahasiswaApp().containerApp.repositoryMhs) }
     }
 }
 
